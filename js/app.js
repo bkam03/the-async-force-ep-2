@@ -7,9 +7,17 @@ var resourceType = document.querySelector( '#resourceType' );
 var resourceId = document.querySelector( '#resourceId' );
 
 requestResourceButton.addEventListener( 'click', function (){
-  console.log( 'type ', resourceType.value );
-  console.log( 'id ', resourceId.value );
+  var urlShard = resourceType.value + '/' + resourceId.value + '/';
+  var newXhrRequest = new XMLHttpRequest();
+  newXhrRequest.addEventListener( 'load', function(){
+    var targetContentContainer = document.querySelector( '#contentContainer' );
+    targetContentContainer.innerHTML = JSON.parse( this.responseText );
+    console.log( JSON.parse( this.responseText ) );
+  } );
+  newXhrRequest.open( 'GET', 'http://swapi.co/api/' + urlShard );
+  newXhrRequest.send();
 } );
+
 
 /*
 when you push the button
@@ -19,6 +27,8 @@ puts the data into the #contentContainer.
 
 format after.
 */
+
+
 
 /*
 A request to the SWAPI api should be initiated when the button is clicked. Information that comes back from the API should be displayed in the body of the html. Additional html elements should be created to properly parse, display and format the data in a presentable way.
